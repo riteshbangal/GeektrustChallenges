@@ -50,13 +50,15 @@ public class LengaburuTrafficValidator {
 		StringBuilder invalidMessage = new StringBuilder();
 		// Validate weather type
 		if (!WeatherType.contains(pWeatherType)) {
-			invalidMessage.append("Please enter a valid weather type. This weather type doesn't exist.");
+			invalidMessage.append("Please enter a valid weather type. Input doesn't exist.");
 		}
 		
-		if (!isValidSuburbs(pSource, pDestination)) {
-			invalidMessage.append("\nPlease enter a valid source/destination type. Either any or both of these suburbs doesn't exist.");
-		} else if (pSource.equalsIgnoreCase(pDestination)) {
-			invalidMessage.append("\nSource and destination can't be same.");
+		if (!isValidSuburb(pSource, "source")) {
+			invalidMessage.append("\nPlease enter a valid source. Input doesn't exist.");
+		} else if (!isValidSuburb(pDestination, "destination")) {
+				invalidMessage.append("\nPlease enter a valid destination. Input doesn't exist.");
+		} else if (!isOrbitExists(pSource, pDestination)) {
+			invalidMessage.append("\nNo route/orbit found for this source-destination combination.");
 		}
 		
 		return invalidMessage.toString();
@@ -67,14 +69,33 @@ public class LengaburuTrafficValidator {
 	 * 
 	 * Note: Here source and destination, can't be interchanged. As road could be two ways. 
 	 * 
+	 * @param pSuburb - Source/Destination. User input
+	 * @param pSuburb - SuburbType: source/destination.
+	 * 
+	 * @return - If exists true, else false.
+	 */
+	private boolean isValidSuburb(String pSuburb, String pSuburbType) {
+		if ("source".equalsIgnoreCase(pSuburbType)) {
+			return initializer.getAllOrbits().parallelStream()
+					.anyMatch(orbit -> orbit.getSource().equalsIgnoreCase(pSuburb));
+		} else if ("destination".equalsIgnoreCase(pSuburbType)) {
+			return initializer.getAllOrbits().parallelStream()
+					.anyMatch(orbit -> orbit.getDestination().equalsIgnoreCase(pSuburb));
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if any orbit exists for given source and destination combination.
+	 * 
+	 * Note: Here source and destination, can't be interchanged. As road could be two ways. 
+	 * 
 	 * @param pSource - User input
 	 * @param pDestination - User input
 	 * @return - If exists true, else false.
 	 */
-	private boolean isValidSuburbs(String pSource, String pDestination) {
-		return initializer.getAllOrbits().stream()
-			   .anyMatch(orbit -> orbit.getSource().equalsIgnoreCase(pSource)
-							   || orbit.getDestination().equalsIgnoreCase(pDestination));
+	private boolean isOrbitExists(String pSource, String pDestination) {
+		return initializer.getAllOrbits().parallelStream().anyMatch(orbit -> orbit.getSource().equalsIgnoreCase(pSource)
+				&& orbit.getDestination().equalsIgnoreCase(pDestination));
 	}
-	
 }

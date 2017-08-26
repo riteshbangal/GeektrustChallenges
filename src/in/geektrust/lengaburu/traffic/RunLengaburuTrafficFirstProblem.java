@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @version 1.0
  * @since <22-August-2017>
  */
-public class RunLengaburuTraffic {
+public class RunLengaburuTrafficFirstProblem {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {

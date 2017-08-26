@@ -18,7 +18,7 @@ import in.geektrust.lengaburu.traffic.validator.LengaburuTrafficValidator;
  * DESCRIPTION - This class is solution for problem: Lengaburu Traffic
  * 
  * It contains solutions for following problems:
- *  1.	Goal: To go from Source(e.g. Silk Dorb) to  destination (e.g. Hallitharam) in the shortest time possible.
+ *  1.	Goal: To go from Source(e.g. Silk Dorb) to  destination (e.g. Hallitharam) in the shortest possible time.
  * 	2.	
  * 
  * @author - Ritesh Bangal
@@ -78,7 +78,12 @@ public class LengaburuTrafficFinder {
 		// Find out the optimum TraverseDetail object from list of traverseDetails
 		TraverseDetail optimumTraverseDetail = helper.findOptimumTraverseDetail(traverseDetails);
 		
-		// Generate and return output message from optimized TraverseDetail object
-		return helper.generateOutputmessage(optimumTraverseDetail);
+		// Check optimum TraverseDetail object
+		if (null == optimumTraverseDetail) {
+			return "System Error: Unable to findout shortest possible time";
+		} else {
+			// Generate and return output message from optimized TraverseDetail object
+			return helper.generateOutputmessage(optimumTraverseDetail);
+		}
 	}
 }

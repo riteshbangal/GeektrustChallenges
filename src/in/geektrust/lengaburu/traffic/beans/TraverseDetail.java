@@ -18,7 +18,7 @@ public class TraverseDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
-	private Integer traverseTime; // Default unit is minutes.
+	private int traverseTime; // Default unit is minutes.
 	private Orbit orbit;
 	private Vehicle vehicle;
 	
@@ -26,18 +26,18 @@ public class TraverseDetail implements Serializable {
 		// Default constructor
 	}
 	
-	public TraverseDetail(Integer traverseTime, Orbit orbit, Vehicle vehicle) {
+	public TraverseDetail(int traverseTime, Orbit orbit, Vehicle vehicle) {
 		super();
 		this.traverseTime = traverseTime; // Default unit is minutes.
 		this.orbit = orbit;
 		this.vehicle = vehicle; 
 	}
 	
-	public Integer getTraverseTime() {
+	public int getTraverseTime() {
 		return traverseTime;
 	}
 
-	public void setTraverseTime(Integer pTraverseTime) {
+	public void setTraverseTime(int pTraverseTime) {
 		traverseTime = pTraverseTime;
 	}
 

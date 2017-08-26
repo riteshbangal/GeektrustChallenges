@@ -4,6 +4,8 @@
 */
 package in.geektrust.lengaburu.traffic.beans;
 
+import java.io.Serializable;
+
 /**
  * Velocity Bean.
  * 
@@ -11,26 +13,28 @@ package in.geektrust.lengaburu.traffic.beans;
  * @version 1.0
  * @since <22-August-2017>
  */
-public class Velocity {
+public class Velocity implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
-	private Integer speed; // Default unit is megamiles/hour.
+	private int speed; // Default unit is megamiles/hour.
 	private String  unit;
 
 	public Velocity() {
 		// Default constructor
 	}
 	
-	public Velocity(Integer speed, String unit) {
+	public Velocity(int speed, String unit) {
 		super();
 		this.speed = speed;
 		this.unit = unit;
 	}
 	
-	public Integer getSpeed() {
+	public int getSpeed() {
 		return this.speed;
 	}
 
-	public void setSpeed(Integer speed) {
+	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 

@@ -20,13 +20,13 @@ public class Vehicle {
 	/**
 	 * Time to cross a cracker (default unit is in minutes)
 	 */
-	private Integer timeToCrossCrater;
+	private int timeToCrossCrater;
 
 	public Vehicle() {
 		// Default constructor
 	}
 	
-	public Vehicle(String name, Velocity velocity, Integer timeToCrossCrater) {
+	public Vehicle(String name, Velocity velocity, int timeToCrossCrater) {
 		super();
 		this.name = name;
 		this.velocity = velocity;
@@ -49,11 +49,11 @@ public class Vehicle {
 		this.velocity = velocity;
 	}
 
-	public Integer getTimeToCrossCrater() {
+	public int getTimeToCrossCrater() {
 		return this.timeToCrossCrater;
 	}
 
-	public void setTimeToCrossCrater(Integer timeToCrossCrater) {
+	public void setTimeToCrossCrater(int timeToCrossCrater) {
 		this.timeToCrossCrater = timeToCrossCrater;
 	}
 	

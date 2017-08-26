@@ -21,8 +21,8 @@ public class Orbit implements Serializable {
 	private String destination;
 
 	// Default unit is megamiles.
-	private Integer distance;
-	private Integer numberOfCraters;
+	private int distance;
+	private int numberOfCraters;
 	
 	private Velocity velocityLimit;
 	
@@ -30,7 +30,7 @@ public class Orbit implements Serializable {
 		// Default constructor
 	}
 	
-	public Orbit(String source, String destination, Integer distance, Integer numberOfCraters, Velocity velocityLimit) {
+	public Orbit(String source, String destination, int distance, int numberOfCraters, Velocity velocityLimit) {
 		super();
 		this.source = source;
 		this.destination = destination;
@@ -55,19 +55,19 @@ public class Orbit implements Serializable {
 		destination = pDestination;
 	}
 
-	public Integer getDistance() {
+	public int getDistance() {
 		return distance;
 	}
 
-	public void setDistance(Integer pDistance) {
+	public void setDistance(int pDistance) {
 		distance = pDistance;
 	}
 
-	public Integer getNumberOfCraters() {
+	public int getNumberOfCraters() {
 		return numberOfCraters;
 	}
 
-	public void setNumberOfCraters(Integer pNumberOfCraters) {
+	public void setNumberOfCraters(int pNumberOfCraters) {
 		numberOfCraters = pNumberOfCraters;
 	}
 

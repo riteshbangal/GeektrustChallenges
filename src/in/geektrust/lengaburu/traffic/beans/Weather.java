@@ -18,14 +18,14 @@ public class Weather {
 	private WeatherType weatherType;
 
 	// It will be either +ve (if increase) or -ve (if reduce) percentage
-	private Integer craterChangeRate;
+	private int craterChangeRate;
 	private List<String> suitableVehicleNames;
 
 	public Weather() {
 		// Default constructor
 	}
 	
-	public Weather(WeatherType weatherType, Integer craterChangeRate, List<String> sustainableVehicleNames) {
+	public Weather(WeatherType weatherType, int craterChangeRate, List<String> sustainableVehicleNames) {
 		super();
 		this.weatherType = weatherType;
 		this.craterChangeRate = craterChangeRate;
@@ -40,11 +40,11 @@ public class Weather {
 		weatherType = pWeatherType;
 	}
 
-	public Integer getCraterChangeRate() {
+	public int getCraterChangeRate() {
 		return craterChangeRate;
 	}
 
-	public void setCraterChangeRate(Integer pCraterChangeRate) {
+	public void setCraterChangeRate(int pCraterChangeRate) {
 		craterChangeRate = pCraterChangeRate;
 	}
 

@@ -54,9 +54,9 @@ public class LengaburuTrafficHelper {
 	 * @return - Matched Weather.
 	 */
 	public Weather getWeatherByType(String pWeatherType) {
-		return initializer.getAllWeatherDetails().stream()
+		return initializer.getAllWeatherDetails().parallelStream()
 				.filter(weather -> pWeatherType.equalsIgnoreCase(weather.getWeatherType().toString()))
-				.findFirst().get();
+				.findAny().orElse(null);
 	}
 	
 	/**
@@ -103,8 +103,8 @@ public class LengaburuTrafficHelper {
 	public List<TraverseDetail> getTraverseDetails(Weather pWeather, List<Vehicle> pVehicles, List<Orbit> pAvailableOrbits) {
 		
 		List<TraverseDetail> traverseDetails = new ArrayList<>();
-		pVehicles.parallelStream()
-				.forEach(vehicle -> pAvailableOrbits.parallelStream()
+		pVehicles.stream()
+				.forEach(vehicle -> pAvailableOrbits.stream()
 						.forEach(orbit -> {
 							// Populate TraverseDetail object with the traverse time, orbit and vehicle.
 							TraverseDetail traverseDetail = new TraverseDetail();
@@ -116,7 +116,7 @@ public class LengaburuTrafficHelper {
 							
 							// Add all populated TraverseDetail objects into a list
 							traverseDetails.add(traverseDetail);
-							System.out.println(traverseDetail);
+							//System.out.println(traverseDetail);
 						})
 				);
 		return traverseDetails;
@@ -190,8 +190,9 @@ public class LengaburuTrafficHelper {
 				// No new memory allocation is happening, it's just a change of reference
 				optimumTraverseDetail = pTraverseDetails.get(i); 
 			} else if (traverseTime == minimumTime) {
-				// TODO: If there is a tie in which vehicle to choose, use bike, auto/tuktuk, car in that order.
-				System.out.println("traverseTime == minimumTime");
+				// If there is a tie in which vehicle to choose, use bike, auto/tuktuk, car in that order.
+				// TODO: Need to consider in case of parallel processing with huge records. Currently it's working fine.
+				//System.out.println("traverseTime == minimumTime");
 			}
 		}
 		return optimumTraverseDetail;
@@ -205,11 +206,11 @@ public class LengaburuTrafficHelper {
 	 */
 	public String generateOutputmessage(TraverseDetail pOptimumTraverseDetail) {
 		StringBuilder output = new StringBuilder();
-		output.append("Vehicle ").append(pOptimumTraverseDetail.getVehicle().getName())
-			  .append(" on ")
-			  .append(pOptimumTraverseDetail.getOrbit().getSource())
-			  .append("-")
-			  .append(pOptimumTraverseDetail.getOrbit().getDestination());
-		return  output.toString();
+		output.append("Vehicle ").append(pOptimumTraverseDetail.getVehicle().getName()).append(" on ")
+				.append(pOptimumTraverseDetail.getOrbit().getSource()).append("-")
+				.append(pOptimumTraverseDetail.getOrbit().getDestination()).append(" [Distance: ")
+				.append(pOptimumTraverseDetail.getOrbit().getDistance()).append(", Number of Craters: ")
+				.append(pOptimumTraverseDetail.getOrbit().getNumberOfCraters()).append("]");
+		return output.toString();
 	}
 }

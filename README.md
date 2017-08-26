@@ -44,4 +44,8 @@ King wants to visit from one residential area to another residential area.
 
  *  Success (vehicle and orbit information) or failure message.
  
-> Assumption: Unit of speed limit of an orbit and vechicle's speed should be same. Default unit is megamiles/hour.
+> Assumption: 
+
+ *	Details for source and destination, can't be same. As road could be two ways.
+ *  Unit of speed limit of an orbit and vechicle's speed should be same. Default unit is megamiles/hour.
+ 
