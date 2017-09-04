@@ -8,7 +8,7 @@ import in.geektrust.lengaburu.traffic.beans.WeatherType;
 import in.geektrust.lengaburu.traffic.initializer.LengaburuTrafficInitializer;
 
 /**
- * DESCRIPTION - This is a validator class injected in LengaburuTrafficCalculator.
+ * DESCRIPTION - This is a validator class, injected in LengaburuTrafficCalculator and LengaburuTrafficHelper.
  * 
  * It performs following operations:
  * 	1.	Validate all input parameters
@@ -105,7 +105,7 @@ public class LengaburuTrafficValidator {
 		// Validation for source and destinations. If they exist.
 		if (!isValidSuburb(pSource, SOURCE)) {
 			invalidMessage.append("\nPlease enter a valid source. Input doesn't exist.");
-		} else if (!isValidSuburb(pFirstDestination, DESTINATION) && !isValidSuburb(pSecondDestination, DESTINATION)) {
+		} else if (!isValidSuburb(pFirstDestination, DESTINATION) || !isValidSuburb(pSecondDestination, DESTINATION)) {
 			invalidMessage.append("\nPlease enter a valid destinations. Inputs don't exist.");
 		} else if (pSource.equalsIgnoreCase(pFirstDestination) || pSource.equalsIgnoreCase(pSecondDestination) 
 				|| pFirstDestination.equalsIgnoreCase(pSecondDestination)) {

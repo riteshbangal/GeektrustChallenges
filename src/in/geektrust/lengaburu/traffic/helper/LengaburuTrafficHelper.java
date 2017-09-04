@@ -22,7 +22,7 @@ import in.geektrust.lengaburu.traffic.validator.LengaburuTrafficValidator;
  * 
  * It performs following operations:
  * 	1.	Get all suitable vehicle names from the weather and get their corresponding Vehicle objects 
- * 	2.	Get all possible orbits/routes between any source and destination. 
+ * 	2.	Get all possible orbits/route between any source and destination or get orbit sequences, in case of multiple destinations. 
  * 	3.	Identify actual number of craters and possible vehicles on any orbit, based on weather.
  * 	4.	Find out all optimum traverse times, for each route and vehicle.
  * 	5.	Compare these traverse times and find out the optimized one.
@@ -226,15 +226,12 @@ public class LengaburuTrafficHelper {
 		// Create object of AtomicInteger with initial value '1'
 		AtomicInteger counter = new AtomicInteger(1);
 		pOptimumTraverseDetail.getOrbits().stream()
-				.forEach(orbit -> {
-					// Get value of AtomicInteger: 'counter'
-					output.append("\nOrbit ").append(counter.getAndIncrement()).append(".) ")
-						.append(orbit.getSource()).append("-")
-						.append(orbit.getDestination())
+				// Get value of AtomicInteger: 'counter'
+				.forEach(orbit -> output.append("\nOrbit ").append(counter.getAndIncrement()).append(".) ")
+						.append(orbit.getSource()).append("-").append(orbit.getDestination())
 						.append(" [Distance: ").append(orbit.getDistance())
 						.append(", Number of Craters: ").append(orbit.getNumberOfCraters())
-						.append("]; ");
-				});
+						.append("]; "));
 		return output.toString();
 	}
 
@@ -246,6 +243,9 @@ public class LengaburuTrafficHelper {
 	 * 
 	 * This source and destinations are coming through user-input.
 	 * Note: Here source and destination, can't be interchanged. As road could be two ways. 
+	 * 		
+	 * TODO: Currently it's supporting only for two destinations.
+	 * 		 This method needs more refactoring to make it more scalable, to support more than two destinations. 
 	 * 
 	 * @param pSource - User input
 	 * @param pDestinations - User inputs, list of destinations

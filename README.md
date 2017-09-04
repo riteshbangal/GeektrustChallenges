@@ -51,4 +51,8 @@ King wants to visit from one residential area to another residential area.
 
  *	Details for source and destination, can't be same. As road could be two ways.
  *  Unit of speed limit of an orbit and vechicle's speed should be same. Default unit is megamiles/hour.
+
+> Note: 
+
+ *	In this application, **LengaburuTrafficInitializer** is responsible to provide all possible weathers, orbits and vehicles. In real time application, these values will be retrieved from database or file system or through any third party web service.
  

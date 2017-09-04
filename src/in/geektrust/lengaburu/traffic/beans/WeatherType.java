@@ -46,9 +46,9 @@ public enum WeatherType {
      *
      * @param weatherType  the weather type to represent, from 0 (Sunday) to 6 (Saturday)
      * @return the day-of-week singleton, not null
-     * @throws Exception if the day-of-week is invalid
+     * @throws BusinessException, if the day-of-week is invalid
      */
-	public static WeatherType of(int weatherType) throws Exception {
+	public static WeatherType of(int weatherType) throws BusinessException {
 		if (weatherType < 0) {
 			throw new BusinessException("Invalid value for WeatherType: " + weatherType);
 		}

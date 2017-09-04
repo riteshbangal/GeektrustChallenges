@@ -6,7 +6,6 @@ package in.geektrust.lengaburu.traffic;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import in.geektrust.lengaburu.traffic.beans.Orbit;
 import in.geektrust.lengaburu.traffic.beans.TraverseDetail;
@@ -37,6 +36,7 @@ public class LengaburuTrafficFinder {
 	private static LengaburuTrafficValidator validator = LengaburuTrafficValidator.getInstance();
     
 	/**
+	 * Solution for problem 1.
 	 * This method is responsible to calculate optimum time to reach from source to destination.
 	 * 
 	 * To do this it performs following operations:
@@ -94,12 +94,13 @@ public class LengaburuTrafficFinder {
 	}
 	
 	/**
-	 * This method is responsible to calculate optimum time to reach from source to destination.
+	 * Solution for problem 2.
+	 * This method is responsible to calculate optimum time to reach from source to multiple destinations.
 	 * 
 	 * To do this it performs following operations:
 	 *  1.	Get weather by weather-type.
 	 *  2. 	Get all suitable vehicle names from the weather and get their corresponding Vehicle objects.
-	 *  3. 	Get all possible orbit-sequences to traverse multiple destination. 
+	 *  3. 	Get all possible orbit-sequences to traverse multiple destinations. 
 	 * 	4.	Now, based on weather type we can identify actual number of craters and possible vehicles for each orbit.
 	 * 	5.	Find out optimum traverse time for each orbit/route - sequence and vehicle combination.
 	 * 	6.	Compare these times and find out the optimized one.
@@ -167,6 +168,6 @@ public class LengaburuTrafficFinder {
 	 * @return - Converted destination list
 	 */
 	private List<String> getDestinations(String... pDestinations) {
-		return Arrays.stream(pDestinations).collect(Collectors.toList());
+		return Arrays.asList(pDestinations);
 	}
 }
