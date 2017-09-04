@@ -82,13 +82,13 @@ public class Orbit implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder orbit = new StringBuilder("Orbit");
-		orbit.append(": [")
+		orbit.append(": {")
 			.append("source=").append(source)
 			.append(", destination=").append(destination)
 			.append(", distance=").append(distance)
 			.append(", numberOfCraters=").append(numberOfCraters)
 			.append(", velocityLimit=").append(velocityLimit)
-			.append("]");
+			.append("}");
 		return orbit.toString();
 	}
 }

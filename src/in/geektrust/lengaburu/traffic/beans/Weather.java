@@ -59,11 +59,11 @@ public class Weather {
 	@Override
 	public String toString() {
 		StringBuilder weather = new StringBuilder("Weather");
-		weather.append(": [")
+		weather.append(": {")
 			.append("weatherType=").append(weatherType)
 			.append(", craterChangeRate=").append(craterChangeRate)
 			.append(", suitableVehicleNames=").append(suitableVehicleNames)
-			.append("]");
+			.append("}");
 		return weather.toString();
 	}
 }

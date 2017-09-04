@@ -106,6 +106,16 @@ public class LengaburuTrafficInitializer {
 		orbits.add(new Orbit("RK Puram", "Silk Drob", 30, 10, new Velocity(18, "megamiles/hour")));
 		orbits.add(new Orbit("RK Puram", "Silk Drob", 30, 2, new Velocity(28, "megamiles/hour")));
 		orbits.add(new Orbit("Hallitharam", "RK Puram", 15, 18, new Velocity(12, "megamiles/hour")));
+		
+		// New suburb: Bark, and its orbit combinations
+		orbits.add(new Orbit("Hallitharam", "Bark", 6, 4, new Velocity(10, "megamiles/hour")));
+		orbits.add(new Orbit("Hallitharam", "Bark", 5, 2, new Velocity(14, "megamiles/hour")));
+		orbits.add(new Orbit("RK Puram", "Bark", 15, 8, new Velocity(18, "megamiles/hour")));
+		orbits.add(new Orbit("Silk Drob", "Bark", 15, 6, new Velocity(22, "megamiles/hour")));
+		orbits.add(new Orbit("Bark", "Hallitharam", 5, 1, new Velocity(17, "megamiles/hour")));
+		orbits.add(new Orbit("Bark", "RK Puram", 16, 7, new Velocity(20, "megamiles/hour")));
+		orbits.add(new Orbit("Bark", "Silk Drob", 16, 8, new Velocity(18, "megamiles/hour")));
+		
 		return orbits;
 	}
 }

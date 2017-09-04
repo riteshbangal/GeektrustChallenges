@@ -49,10 +49,10 @@ public class Velocity implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder velocity = new StringBuilder("Velocity");
-		velocity.append(": [")
+		velocity.append(": {")
 			.append("speed=").append(speed)
 			.append(", unit=").append(unit)
-			.append("]");
+			.append("}");
 		return velocity.toString();
 	}
 }

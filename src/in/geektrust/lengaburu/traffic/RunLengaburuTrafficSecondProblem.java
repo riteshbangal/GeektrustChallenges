@@ -7,22 +7,24 @@ package in.geektrust.lengaburu.traffic;
 import java.util.Scanner;
 
 /**
- * DESCRIPTION - This class is responsible to test Lengaburu Traffic problem 1.
+ * DESCRIPTION - This class is responsible to test Lengaburu Traffic problem 2.
  * 
- * Problem 1: Lengaburu Traffic
- * King Shan wants to visit the suburb of Hallitharam, and has 2 possible orbits and 3 possible vehicles to chose from.
- * Your coding challenge is to determine which orbit and vehicle King Shan should take to reach Hallitharam the fastest.
+ * Problem 2: Lengaburu Traffic
+ * King Shan now would like to visit Hallitharam and RK Puram on the same day. 
+ * Write code to determine which orbits & vehicle he should take to visit both destinations in the quickest possible time.
+ * 
+ * Note: You can choose only 1 vehicle for the entire trip. You cannot change vehicle after reaching the first destination. 
  * 
  * This class will take input from the user, and will give the output accordingly.
- * Inputs: 	Weather, Source, Destination;
- * Output: 	Shortest possible time to reach to destination from the source;
- * 		    Output contains vehicle and orbit/route details.   
+ * Inputs: 	Weather, Source, Destination 1, Destination 2;
+ * Output: 	Shortest possible time to reach to visit both destinations from the source;
+ * 		    Output contains vehicle and orbits/routes details for both destination.
  * 
  * @author - Ritesh
  * @version 1.0
- * @since <22-August-2017>
+ * @since <26-August-2017>
  */
-public class RunLengaburuTrafficFirstProblem {
+public class RunLengaburuTrafficSecondProblem {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
@@ -43,12 +45,16 @@ public class RunLengaburuTrafficFirstProblem {
 			System.out.println("Enter source. Options ['Hallitharam', 'Silk Drob', 'RK Puram', 'Bark'] :");
 			String source = scanner.nextLine();
 
-			// Input for destination
+			// Input for destination 1
 			System.out.println("Enter destination. Options ['Hallitharam', 'Silk Drob', 'RK Puram', 'Bark'] :");
-			String destination = scanner.nextLine();
+			String firstDestination = scanner.nextLine();
+			
+			// Input for destination 2
+			System.out.println("Enter another destination. Options ['Hallitharam', 'Silk Drob', 'RK Puram', 'Bark'] :");
+			String secondDestination = scanner.nextLine();
 			
 			// Display output
-			System.out.println("Expected Output: " + trafficFinder.calculateOptimumTime(weather, source, destination));
+			System.out.println("Expected Output: " + trafficFinder.calculateOptimumTime(weather, source, firstDestination, secondDestination));
 			
 			System.out.println("\n***********************************************************");
 			// Control execution loop

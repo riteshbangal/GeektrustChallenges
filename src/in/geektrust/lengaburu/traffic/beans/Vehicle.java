@@ -4,6 +4,8 @@
 */
 package in.geektrust.lengaburu.traffic.beans;
 
+import java.io.Serializable;
+
 /**
  * Vehicle Bean.
  * 
@@ -11,10 +13,11 @@ package in.geektrust.lengaburu.traffic.beans;
  * @version 1.0
  * @since <22-August-2017>
  */
-public class Vehicle {
+public class Vehicle implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	private String name;
-	
 	private Velocity velocity;
 	
 	/**
@@ -60,11 +63,11 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		StringBuilder vehicle = new StringBuilder("Vehicle");
-		vehicle.append(": [")
+		vehicle.append(": {")
 			.append("name=").append(name)
 			.append(", velocity=").append(velocity)
 			.append(", timeToCrossCrater=").append(timeToCrossCrater)
-			.append("]");
+			.append("}");
 		return vehicle.toString();
 	}
 }
