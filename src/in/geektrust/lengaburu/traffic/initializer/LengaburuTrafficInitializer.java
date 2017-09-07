@@ -16,14 +16,14 @@ import in.geektrust.lengaburu.traffic.beans.Weather;
 import in.geektrust.lengaburu.traffic.beans.WeatherType;
 
 /**
- * DESCRIPTION - This class is responsible to initialize all data with hard coded values.
+ * DESCRIPTION - This class is responsible to initialize all data with hard coded values. Data has been initialized from the standard I/O in the problem pdf.
  * 
  * It initializes following objects:
  * 	-	List of all possible weathers
  *  - 	List of available vehicles
  *  -  	List of routes/orbits, and its corresponding details.
  *  
- * Note: If data is fetched from any database or file system, we can retrieve them and populate these objects.
+ * Note: In real time application, these values will be retrieved from database or file system or through any third party web service.
  *  
  * @author - Ritesh Bangal
  * @version 1.0
@@ -45,7 +45,11 @@ public class LengaburuTrafficInitializer {
 
 	/**
 	 * This method is responsible for
-	 * 	-	Populate all Weather objects with hard coded values
+	 * 	-	Populate all Weather objects with hard coded values from the standard I/O in the problem pdf.
+	 * 
+	 * Sunny - craters reduce by 10%. Car, bike and tuktuk can be used in this weather.
+	 * Rainy - craters increase by 20%. Car and tuktuk can be used in this weather.
+	 * Windy - no change to number of craters. All vehicles can be used in this weather.
 	 * 
 	 * In the list of vehicles, sequence should be maintained. 
 	 * As, if there is a tie in which vehicle to choose, use bike, auto/tuktuk, car in that order.
@@ -71,8 +75,12 @@ public class LengaburuTrafficInitializer {
 	
 	/**
 	 * This method is responsible for
-	 * 	-	Populate all Vehicle objects with hard coded values
+	 * 	-	Populate all Vehicle objects with hard coded values from the standard I/O in the problem pdf.
 	 *  
+	 * Bike - 10 megamiles/hour & takes 2 min to cross 1 crater
+	 * Tuktuk - 12 mm/hour & takes 1 min to cross 1 crater
+	 * Car - 20 mm/hour & takes 3 min to cross 1 crater
+	 * 
 	 * In the list of vehicles, sequence should be maintained. 
 	 * As, if there is a tie in which vehicle to choose, use bike, auto/tuktuk, car in that order.
 	 *
@@ -88,33 +96,35 @@ public class LengaburuTrafficInitializer {
 	
 	/**
 	 * This method is responsible for
-	 * 	-	Populate all Orbit objects with hard coded values
+	 * 	-	Populate all Orbit objects with hard coded values from the standard I/O in the problem pdf.
 	 * 
-	 * Note: Here source and destination, can't be interchanged. As road could be two ways. 
-	 * 		 i.e. A to B is not same with B to A.
+	 * Orbit options: 
+	 * Orbit 1 - 18 mega miles & 20 craters to cross
+	 * Orbit 2 - 20 mega miles & 10 craters to cross
+	 * Orbit 3 - 30 mega miles & 15 craters to cross
+	 * Orbit 4 - 15 mega miles & 18 craters to cross
+	 * 
+	 * Note: 1.) Orbit's speed limit is initialized with -1. Valid value will be set through user's input.
+	 * 		 2.) Here source and destination, can't be interchanged. As road could be two ways. 
+	 * 		 	 i.e. A to B is not same with B to A.
 	 * 
 	 * @return - List of routes/orbits along with its corresponding details.
 	 */
 	public List<Orbit> getAllOrbits() {
 		List<Orbit> orbits = new ArrayList<>();
-		orbits.add(new Orbit("Hallitharam", "Silk Drob", 18, 20, new Velocity(20, "megamiles/hour")));
-		orbits.add(new Orbit("Hallitharam", "Silk Drob", 20, 10, new Velocity(12, "megamiles/hour")));
-		orbits.add(new Orbit("Silk Drob", "Hallitharam", 18, 22, new Velocity(18, "megamiles/hour")));
-		orbits.add(new Orbit("Silk Drob", "Hallitharam", 20, 12, new Velocity(10, "megamiles/hour")));
-		orbits.add(new Orbit("RK Puram", "Silk Drob", 30, 15, new Velocity(15, "megamiles/hour")));
-		orbits.add(new Orbit("RK Puram", "Silk Drob", 30, 4, new Velocity(25, "megamiles/hour")));
-		orbits.add(new Orbit("RK Puram", "Silk Drob", 30, 10, new Velocity(18, "megamiles/hour")));
-		orbits.add(new Orbit("RK Puram", "Silk Drob", 30, 2, new Velocity(28, "megamiles/hour")));
-		orbits.add(new Orbit("Hallitharam", "RK Puram", 15, 18, new Velocity(12, "megamiles/hour")));
+		// Data has been initialized from the standard I/O in the problem pdf.
+		orbits.add(new Orbit("Orbit1", "Silk Drob", "Hallitharam", 18, 20, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit2", "Silk Drob", "Hallitharam", 20, 10, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit3", "Silk Drob", "RK Puram", 30, 15, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit4", "RK Puram", "Hallitharam", 15, 18, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit4", "Hallitharam", "RK Puram", 15, 18, new Velocity(-1, "megamiles/hour")));
 		
 		// New suburb: Bark, and its orbit combinations
-		orbits.add(new Orbit("Hallitharam", "Bark", 6, 4, new Velocity(10, "megamiles/hour")));
-		orbits.add(new Orbit("Hallitharam", "Bark", 5, 2, new Velocity(14, "megamiles/hour")));
-		orbits.add(new Orbit("RK Puram", "Bark", 15, 8, new Velocity(18, "megamiles/hour")));
-		orbits.add(new Orbit("Silk Drob", "Bark", 15, 6, new Velocity(22, "megamiles/hour")));
-		orbits.add(new Orbit("Bark", "Hallitharam", 5, 1, new Velocity(17, "megamiles/hour")));
-		orbits.add(new Orbit("Bark", "RK Puram", 16, 7, new Velocity(20, "megamiles/hour")));
-		orbits.add(new Orbit("Bark", "Silk Drob", 16, 8, new Velocity(18, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit5", "Hallitharam", "Bark", 6, 4, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit6", "RK Puram", "Bark", 15, 8, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit7", "Silk Drob", "Bark", 15, 6, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit8", "Bark", "Hallitharam", 5, 1, new Velocity(-1, "megamiles/hour")));
+		orbits.add(new Orbit("Orbit9", "Bark", "RK Puram", 16, 7, new Velocity(-1, "megamiles/hour")));
 		
 		return orbits;
 	}

@@ -18,12 +18,11 @@ King wants to visit from one residential area to another residential area.
 	
 ##### Solution steps:
 	1.	Get weather by weather-type.
-	2. 	Get all suitable vehicle names from the weather and get their corresponding Vehicle objects.
-	3. 	Get all the available orbits between any source and destination. Here each orbit sequence contains a single orbit.
-	4.	When there are multiple destinations, get all possible route sequences to visit those destinations. 
-	5.	Now, based on weather type we can identify actual number of craters and possible vehicles for each orbit-sequence.
-	6.	Find out optimum traverse time for each orbit/route and vehicle combination.
-	7.	Compare these times and find out the optimized one.
+	2. 	Based on weather type get all suitable vehicle names and get their corresponding Vehicle objects.
+	3. 	Get all available orbit-sequences to traverse single/multiple destinations and update them with user inputs (i.e. speed limit)
+	4.	Now, based on weather type we can identify actual number of craters for each available orbit.
+	5.	Find out optimum traverse time for each orbit/route - sequence and vehicle combination.
+	6.	Compare these times and find out the optimized one.
 
 ##### Java Version: 1.8
 
@@ -35,21 +34,9 @@ King wants to visit from one residential area to another residential area.
  * 	Velocity[speed: Integer; unit: String (megamiles/hour)]
  *  TraverseDetail[time (minutes): Integer; sequence of orbits: List<Orbit>, vehicle: Vehicle] 
  
-> Inputs:
-
- *  Weather, Source, Destination/Destinations;
- 
-> Process (Algorithm):
- 
- *  Calculate and find out optimized TraverseDetail from list of populated TraverseDetails.
- 
-> Outputs:
-
- *  Success (vehicle and orbit information) or failure message.
- 
 > Assumption: 
 
- *	Details for source and destination, can't be same. As road could be two ways.
+ *	For any orbit source and destination, can't be interchanged. As road could be two ways. 
  *  Unit of speed limit of an orbit and vechicle's speed should be same. Default unit is megamiles/hour.
 
 > Note: 

@@ -17,6 +17,8 @@ public class Orbit implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private String orbitName;
+
 	private String source;
 	private String destination;
 
@@ -30,8 +32,9 @@ public class Orbit implements Serializable {
 		// Default constructor
 	}
 	
-	public Orbit(String source, String destination, int distance, int numberOfCraters, Velocity velocityLimit) {
+	public Orbit(String orbitName, String source, String destination, int distance, int numberOfCraters, Velocity velocityLimit) {
 		super();
+		this.setOrbitName(orbitName);
 		this.source = source;
 		this.destination = destination;
 		this.distance = distance; // Default unit is megamile.
@@ -39,6 +42,14 @@ public class Orbit implements Serializable {
 		this.velocityLimit = velocityLimit;
 	}
 	
+	public String getOrbitName() {
+		return orbitName;
+	}
+
+	public void setOrbitName(String pOrbitName) {
+		orbitName = pOrbitName;
+	}
+
 	public String getSource() {
 		return source;
 	}
@@ -83,7 +94,8 @@ public class Orbit implements Serializable {
 	public String toString() {
 		StringBuilder orbit = new StringBuilder("Orbit");
 		orbit.append(": {")
-			.append("source=").append(source)
+			.append("orbitName=").append(orbitName)
+			.append(", source=").append(source)
 			.append(", destination=").append(destination)
 			.append(", distance=").append(distance)
 			.append(", numberOfCraters=").append(numberOfCraters)

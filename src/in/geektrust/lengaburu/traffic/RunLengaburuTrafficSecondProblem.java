@@ -4,7 +4,15 @@
 */
 package in.geektrust.lengaburu.traffic;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+import in.geektrust.lengaburu.traffic.beans.Orbit;
+import in.geektrust.lengaburu.traffic.utils.ObjectValidationUtils;
 
 /**
  * DESCRIPTION - This class is responsible to test Lengaburu Traffic problem 2.
@@ -29,32 +37,56 @@ public class RunLengaburuTrafficSecondProblem {
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		
-		// Create an instance of LengaburuTrafficCalculator, which will calculate optimum time.
+		// Create an instance of LengaburuTrafficFinder, which will calculate optimum time.
 		LengaburuTrafficFinder trafficFinder = new LengaburuTrafficFinder();
 
+		// Create an instance of Scanner, to scan user inputs
 		Scanner scanner = new Scanner(System.in);
 
 		// Flag to continue the program in a loop
 		boolean continueExecution = true;
 		do {
 			// Input for weather
-			System.out.println("Enter weather in Lengaburu. Options ['Sunny', 'Rainy', 'Windy'] :");
+			System.out.print("Input: Enter weather in Lengaburu. Options ['Sunny', 'Rainy', 'Windy']: ");
 			String weather = scanner.nextLine();
 			
-			// Input for source
-			System.out.println("Enter source. Options ['Hallitharam', 'Silk Drob', 'RK Puram', 'Bark'] :");
-			String source = scanner.nextLine();
-
-			// Input for destination 1
-			System.out.println("Enter destination. Options ['Hallitharam', 'Silk Drob', 'RK Puram', 'Bark'] :");
-			String firstDestination = scanner.nextLine();
+			/*
+			 * Input for source. For this problem, source and destinations are always same.
+			 * i.e. King Shan now would like to visit Hallitharam and RK Puram on the same day.
+			 * So source is 'Silk Drob' and destinations are  'Hallitharam' and 'RK Puram'
+			 */
+			String source = "Silk Drob";
+			String firstDestination = "Hallitharam";
+			String secondDestination = "RK Puram";
 			
-			// Input for destination 2
-			System.out.println("Enter another destination. Options ['Hallitharam', 'Silk Drob', 'RK Puram', 'Bark'] :");
-			String secondDestination = scanner.nextLine();
+			/*
+			 * Get a list of destinations, to be traversed.
+			 * Get all possible orbit-sequences to traverse multiple destination. 
+			 */
+			List<List<Orbit>> availableOrbitSequences = trafficFinder.getLengaburuTrafficHelper()
+					.getAvailableOrbitSequences(source, ObjectValidationUtils.getList(firstDestination, secondDestination));
+		
+			// Get all available orbit names and arrange them in sequence. Will be used while getting from user input.
+			Set<String> availableOrbitNames = new TreeSet<>();
+			availableOrbitSequences.stream().forEach(orbitSequence -> orbitSequence.stream()
+					.forEach(orbit -> availableOrbitNames.add(orbit.getOrbitName())));
+
+			/*
+			 * This map is used to hold user inputs (orbit's speed limit) corresponding to orbit name.
+			 * Will be used while doing input validation.
+			 */
+			Map<String, Integer> orbitSpeedLimitMap = new LinkedHashMap<>();
+			for (String orbitName : availableOrbitNames) {
+				System.out.print("Input: Enter the  max traffic speed of " + orbitName + ": ");
+				// Input for speed limit of the orbit
+				String input = scanner.nextLine();
+				
+				// Parse input speed from string to integer. Put into the map, to be used in coming iteration
+				orbitSpeedLimitMap.put(orbitName, trafficFinder.getLengaburuTrafficHelper().parseOrbitSpeed(input));
+			}
 			
 			// Display output
-			System.out.println("Expected Output: " + trafficFinder.calculateOptimumTime(weather, source, firstDestination, secondDestination));
+			System.out.println("\nOutput: " + trafficFinder.calculateOptimumTimeForMultipleDestinations(weather, availableOrbitSequences, orbitSpeedLimitMap));
 			
 			System.out.println("\n***********************************************************");
 			// Control execution loop

@@ -4,7 +4,9 @@
 */
 package in.geektrust.lengaburu.traffic.utils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * DESCRIPTION - This class is a utility class for this traffic app.
@@ -54,6 +56,26 @@ public class ObjectValidationUtils {
 	}
 
 	public static <E> boolean isNotEmpty(Collection<E> pCollectionObj) {
-		return pCollectionObj != null && pCollectionObj.isEmpty();
+		return pCollectionObj != null && !pCollectionObj.isEmpty();
+	}
+
+	/**
+	 * Convert array inputs into a list, where inputs are array of objects
+	 * 
+	 * @param pInputs - User inputs as array of objects
+	 * @return - Converted input object list
+	 */
+	public static List<Object> getList(Object... pInputs) {
+		return Arrays.asList(pInputs);
+	}
+	
+	/**
+	 * Convert array inputs into a list, where inputs are array of string
+	 * 
+	 * @param pInputs - User inputs as array of string
+	 * @return - Converted input list
+	 */
+	public static List<String> getList(String... pInputs) {
+		return Arrays.asList(pInputs);
 	}
 }

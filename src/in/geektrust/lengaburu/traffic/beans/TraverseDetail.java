@@ -13,6 +13,8 @@ import java.util.List;
  * Here list of orbits that contains sequence of routes/orbits between source and final destinations, 
  * to visit via other destinations/suburbs.
  * 
+ * Note: When there is single destination, each orbit-sequence contains only one orbit, i.e. orbit between any source and destination.
+ * 
  * @author - Ritesh Bangal
  * @version 1.0
  * @since <26-August-2017>

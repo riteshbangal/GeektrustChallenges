@@ -4,8 +4,8 @@
 */
 package in.geektrust.lengaburu.traffic;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import in.geektrust.lengaburu.traffic.beans.Orbit;
 import in.geektrust.lengaburu.traffic.beans.TraverseDetail;
@@ -20,8 +20,7 @@ import in.geektrust.lengaburu.traffic.validator.LengaburuTrafficValidator;
  * 
  * It contains solutions for following problems: 
  * 1. Problem 1 | Goal: To go from Source(e.g. Silk Dorb) to destination (e.g. Hallitharam) in the shortest possible time.
- * 2. Problem 2 | Goal: To go from Source(e.g. Silk Dorb) to destination (e.g. Hallitharam),
- * 						via another destination in the shortest possible time.
+ * 2. Problem 2 | Goal: To go from Source(e.g. Silk Dorb) to two different destinations (e.g. Hallitharam, RK Puram) in the shortest possible time.
  * 
  * @author - Ritesh Bangal
  * @version 1.0
@@ -41,26 +40,27 @@ public class LengaburuTrafficFinder {
 	 * 
 	 * To do this it performs following operations:
 	 *  1.	Get weather by weather-type.
-	 *  2. 	Get all suitable vehicle names from the weather and get their corresponding Vehicle objects
-	 *  3. 	Get all the available orbits between any source and destination 
-	 * 	4.	Get all possible routes between any source and destination. 
-	 * 	5.	Now, based on weather type we can identify actual number of craters and possible vehicles for each orbit.
-	 * 	6.	Find out optimum traverse time for each orbit/route and vehicle combination.
-	 * 	7.	Compare these times and find out the optimized one.
+	 *  2. 	Based on weather type get all suitable vehicle names and get their corresponding Vehicle objects.
+	 *  3. 	Get all available orbits and update them with user inputs (i.e. speed limit)
+	 * 	4.	Now, based on weather type we can identify actual number of craters for each available orbit.
+	 * 	5.	Find out optimum traverse time for each orbit/route and vehicle combination.
+	 * 	6.	Compare these times and find out the optimized one.
 	 * 
 	 * @param pWeatherType - User input
-	 * @param pSource - User input
-	 * @param pDestination - User input
-	 * @return - Success or failure message after doing calculation for optimum time. 
+	 * @param pAvailableOrbits - Updated list of orbit sequences with user's input (speed limit of orbits)
+	 * @param pOrbitSpeedLimitMap - This map is used to hold user inputs (orbit's speed limit) corresponding to orbit name.
+	 * 
+	 * @return - Success or failure message after doing calculation for optimum traverse time. 
 	 */
-	public String calculateOptimumTime(String pWeatherType, String pSource, String pDestination) {
+	public String calculateOptimumTimeForSingleDestination(String pWeatherType, 
+			List<List<Orbit>> pAvailableOrbits, Map<String, Integer> pOrbitSpeedLimitMap) {
 		
 		// Validate input parameters. If something invalid, it will have invalid message
-		String invalidMessage = validator.validateUserInputs(pWeatherType, pSource, pDestination);
+		String invalidMessage = validator.validateUserInputs(pWeatherType, pOrbitSpeedLimitMap);
 		
-		// If user inputs are not valid, return the invalid message
+		// If all inputs are valid, invalidMessage will be empty. Else if user inputs are not valid, return the invalid message
 		if (ObjectValidationUtils.isNotBlank(invalidMessage)) {
-			return invalidMessage;
+			return "Validation failed. Error message(s): \n" + invalidMessage;
 		}
 		
 		// Get weather by weather-type
@@ -69,17 +69,18 @@ public class LengaburuTrafficFinder {
 		// Get all suitable vehicle names for the selected weather and get their corresponding Vehicle objects
 		List<Vehicle> vehicles = helper.getSuitableVehicles(weather.getSuitableVehicleNames());
 		
-		/*
-		 * Get all available sequence of routes/orbits between any source and destination.
-		 * Here each orbit-sequence contains only one orbit, i.e. orbit between any source and destination.
-		 */
-		List<List<Orbit>> availableOrbits = helper.getAvailableOrbits(pSource, pDestination);
-		
+		// Iterate all available orbit-sequences and set it's max speed limit, which came as input.
+		pAvailableOrbits.stream()
+			.forEach(orbitSequence -> orbitSequence.stream()
+				// Update the orbit-sequence with orbit's speed limit
+				.forEach(orbit -> orbit.getVelocityLimit().setSpeed(pOrbitSpeedLimitMap.get(orbit.getOrbitName())))
+			);
+
 		/*
 		 * Populate TraverseDetail object with the traverse time, orbit and vehicle.
 		 * Get list of all populated TraverseDetail objects.
 		 */
-		List<TraverseDetail> traverseDetails = helper.getTraverseDetails(weather, vehicles, availableOrbits);
+		List<TraverseDetail> traverseDetails = helper.getTraverseDetails(weather, vehicles, pAvailableOrbits);
 		
 		// Find out the optimum TraverseDetail object from list of traverseDetails
 		TraverseDetail optimumTraverseDetail = helper.findOptimumTraverseDetail(traverseDetails);
@@ -89,7 +90,7 @@ public class LengaburuTrafficFinder {
 			return "System Error: Unable to findout shortest possible time";
 		} else {
 			// Generate and return output message from optimized TraverseDetail object
-			return helper.generateOutputmessage(optimumTraverseDetail);
+			return helper.generateOutputmessage(optimumTraverseDetail, "Problem1");
 		}
 	}
 	
@@ -99,33 +100,30 @@ public class LengaburuTrafficFinder {
 	 * 
 	 * To do this it performs following operations:
 	 *  1.	Get weather by weather-type.
-	 *  2. 	Get all suitable vehicle names from the weather and get their corresponding Vehicle objects.
-	 *  3. 	Get all possible orbit-sequences to traverse multiple destinations. 
-	 * 	4.	Now, based on weather type we can identify actual number of craters and possible vehicles for each orbit.
+	 *  2. 	Based on weather type get all suitable vehicle names and get their corresponding Vehicle objects.
+	 *  3. 	Get all available orbit-sequences to traverse multiple destinations and update them with user inputs (i.e. speed limit)
+	 * 	4.	Now, based on weather type we can identify actual number of craters for each available orbit.
 	 * 	5.	Find out optimum traverse time for each orbit/route - sequence and vehicle combination.
 	 * 	6.	Compare these times and find out the optimized one.
 	 * 
+	 * Note: Currently it has been implemented for two destinations. 
+	 * 		 Logic will have slight change in this method to make it more scalable, to support for more than two destinations.
+	 * 
 	 * @param pWeatherType - User input
-	 * @param pSource - User input
-	 * @param pFirstDestination - User input
-	 * @param pSecondDestination - User input
+	 * @param pAvailableOrbitSequences - Updated list of orbit sequences with user's input (speed limit of orbits)
+	 * @param pOrbitSpeedLimitMap - This map is used to hold user inputs (orbit's speed limit) corresponding to orbit name.
+	 * 
 	 * @return - Success or failure message after doing calculation for optimum time. 
 	 */
-	public String calculateOptimumTime(String pWeatherType, String pSource, String pFirstDestination, String pSecondDestination) {
+	public String calculateOptimumTimeForMultipleDestinations(String pWeatherType,
+			List<List<Orbit>> pAvailableOrbitSequences, Map<String, Integer> pOrbitSpeedLimitMap) {
+
+		// Validate input parameters. If something invalid, it will have invalid message
+		String invalidMessage = validator.validateUserInputs(pWeatherType, pOrbitSpeedLimitMap);
 		
-		/*
-		 * Validate input parameters. If something invalid, it will have invalid message.
-		 * Here no validation has been done to check, if any orbit exists between suburb combinations.
-		 * It will be done later, during optimum-time calculation.
-		 * 
-		 * It validates for two destination. 
-		 * To make it more scalable, validation will be done on list of destinations, to be traversed.
-		 */
-		String invalidMessage = validator.validateUserInputs(pWeatherType, pSource, pFirstDestination, pSecondDestination);
-		
-		// If user inputs are not valid, return the invalid message
+		// If all inputs are valid, invalidMessage will be empty. Else if user inputs are not valid, return the invalid message
 		if (ObjectValidationUtils.isNotBlank(invalidMessage)) {
-			return invalidMessage;
+			return "Validation failed. Error message(s): \n" + invalidMessage;
 		}
 		
 		// Get weather by weather-type
@@ -134,19 +132,19 @@ public class LengaburuTrafficFinder {
 		// Get all suitable vehicle names for the selected weather and get their corresponding Vehicle objects
 		List<Vehicle> vehicles = helper.getSuitableVehicles(weather.getSuitableVehicleNames());
 		
-		/*
-		 * Get a list of destinations, to be traversed.
-		 * Get all possible orbit-sequences to traverse multiple destination. 
-		 */
-		List<List<Orbit>> availableOrbitSequences = helper
-				.getAvailableOrbitSequences(pSource, getDestinations(pFirstDestination, pSecondDestination));
-		
+		// Iterate all available orbit-sequences and set it's max speed limit, which came as input.
+		pAvailableOrbitSequences.stream()
+			.forEach(orbitSequence -> orbitSequence.stream()
+				// Update the orbit-sequence with orbit's speed limit
+				.forEach(orbit -> orbit.getVelocityLimit().setSpeed(pOrbitSpeedLimitMap.get(orbit.getOrbitName())))
+			);
+
 		/*
 		 * Populate TraverseDetail object with the traverse time, sequence of orbits and vehicle.
 		 * Get list of all populated TraverseDetail objects.
 		 */
 		List<TraverseDetail> traverseDetailsWithCombinations = helper
-				.getTraverseDetails(weather, vehicles, availableOrbitSequences);
+				.getTraverseDetails(weather, vehicles, pAvailableOrbitSequences);
 		
 		// Find out the optimum TraverseDetail object from list of traverseDetails
 		TraverseDetail optimumTraverseDetail = helper
@@ -157,17 +155,16 @@ public class LengaburuTrafficFinder {
 			return "System Error: Unable to findout shortest possible time";
 		} else {
 			// Generate and return output message from optimized TraverseDetail object
-			return helper.generateOutputmessage(optimumTraverseDetail);
+			return helper.generateOutputmessage(optimumTraverseDetail, "Problem2");
 		}
 	}
 
 	/**
-	 * Convert this destinations into a list
-	 * 
-	 * @param pDestinations - User inputs
-	 * @return - Converted destination list
+	 * Getter method for LengaburuTrafficHelper.
+	 *  
+	 * @return LengaburuTrafficHelper instance
 	 */
-	private List<String> getDestinations(String... pDestinations) {
-		return Arrays.asList(pDestinations);
+	public LengaburuTrafficHelper getLengaburuTrafficHelper() {
+		return helper;
 	}
 }
